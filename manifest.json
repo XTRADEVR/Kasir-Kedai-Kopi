@@ -1,0 +1,24 @@
+{
+  "name": "KopiPOS - Sistem Kasir Kedai Kopi",
+  "short_name": "KopiPOS",
+  "description": "Aplikasi Kasir POS Progressive Web App Kedai Kopi Modern",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#120e0c",
+  "theme_color": "#1e1613",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=192&h=192&fit=crop&crop=faces&q=80",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=512&h=512&fit=crop&crop=faces&q=80",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
