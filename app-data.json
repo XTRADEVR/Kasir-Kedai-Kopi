@@ -1,0 +1,65 @@
+{
+  "users": [
+    { "id": "u1", "name": "Admin Utama", "role": "admin", "pin": "1234" },
+    { "id": "u2", "name": "Barista Kasir", "role": "kasir", "pin": "0000" }
+  ],
+  "categories": ["Semua", "Kopi", "Non-Kopi", "Teh", "Minuman Dingin", "Snack"],
+  "menus": [
+    {
+      "id": "m1",
+      "name": "Espresso Double Shot",
+      "category": "Kopi",
+      "price": 18000,
+      "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m2",
+      "name": "Kopi Susu Gula Aren",
+      "category": "Kopi",
+      "price": 22000,
+      "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m3",
+      "name": "Caramel Macchiato",
+      "category": "Kopi",
+      "price": 28000,
+      "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m4",
+      "name": "Matcha Latte",
+      "category": "Non-Kopi",
+      "price": 26000,
+      "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m5",
+      "name": "Artisan Earl Grey Tea",
+      "category": "Teh",
+      "price": 20000,
+      "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m6",
+      "name": "Cold Brew Peach Tonic",
+      "category": "Minuman Dingin",
+      "price": 27000,
+      "image": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m7",
+      "name": "Butter Croissant",
+      "category": "Snack",
+      "price": 24000,
+      "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "m8",
+      "name": "Cinnamon Roll Glaze",
+      "category": "Snack",
+      "price": 23000,
+      "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80"
+    }
+  ]
+}
