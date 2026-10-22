@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>KopiPOS — Kasir Kedai Kopi</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1e1613">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+  <!-- 1. SPLASH SCREEN BERKUALITAS -->
+  <div id="splash-screen">
+    <div class="splash-logo-container">
+      <i data-lucide="coffee" class="splash-icon"></i>
+    </div>
+    <h1 class="splash-title">KopiPOS</h1>
+    <p class="splash-tagline">Artisan Coffee & Eatery System</p>
+    <div class="splash-progress-track">
+      <div class="splash-progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- CONTAINER UTAMA -->
+  <div class="app-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand-icon" title="KopiPOS">
+        <i data-lucide="coffee"></i>
+      </div>
+      <ul class="nav-links">
+        <li class="nav-item active" data-tab="pos" title="Mesin Kasir">
+          <i data-lucide="layout-grid"></i>
+        </li>
+        <li class="nav-item" data-tab="report" title="Laporan Harian">
+          <i data-lucide="bar-chart-3"></i>
+        </li>
+        <li class="nav-item" data-tab="manage-menu" title="Manajemen Menu">
+          <i data-lucide="utensils"></i>
+        </li>
+      </ul>
+      <div class="user-badge" id="role-toggle-btn" title="Klik untuk ganti hak akses">
+        <span id="current-role-badge">Role: Kasir</span>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="main-view">
+      
+      <!-- VIEW: POS KASIR -->
+      <section id="view-pos">
+        <header class="top-bar">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Pesanan Baru</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;" id="date-display"></p>
+          </div>
+          <div class="search-box">
+            <i data-lucide="search" style="color: var(--text-muted); width: 18px;"></i>
+            <input type="text" id="search-menu-input" placeholder="Cari kopi, snack, teh...">
+          </div>
+        </header>
+
+        <!-- Kategori Filter -->
+        <div class="categories-scroll" id="category-bar"></div>
+
+        <!-- Shimmer Skeleton Bar -->
+        <div class="shimmer-wrapper" id="menu-shimmer">
+          <div class="shimmer-card shimmer-animate"><div class="shimmer-img"></div><div class="shimmer-line"></div><div class="shimmer-line short"></div></div>
+          <div class="shimmer-card shimmer-animate"><div class="shimmer-img"></div><div class="shimmer-line"></div><div class="shimmer-line short"></div></div>
+          <div class="shimmer-card shimmer-animate"><div class="shimmer-img"></div><div class="shimmer-line"></div><div class="shimmer-line short"></div></div>
+          <div class="shimmer-card shimmer-animate"><div class="shimmer-img"></div><div class="shimmer-line"></div><div class="shimmer-line short"></div></div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid" id="menu-grid-container"></div>
+      </section>
+
+      <!-- VIEW: LAPORAN PENJUALAN HARIAN -->
+      <section id="view-report" style="display: none;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;">Laporan Ringkasan Harian</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; border-radius: var(--radius-md);">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Total Omset</p>
+            <h3 id="report-total-revenue" style="font-size: 1.6rem; color: var(--primary); margin-top: 4px;">Rp 0</h3>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; border-radius: var(--radius-md);">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Total Transaksi</p>
+            <h3 id="report-total-transactions" style="font-size: 1.6rem; margin-top: 4px;">0</h3>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; border-radius: var(--radius-md);">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Cup / Item Terjual</p>
+            <h3 id="report-total-items" style="font-size: 1.6rem; margin-top: 4px;">0</h3>
+          </div>
+        </div>
+
+        <h3 style="margin-bottom: 12px;">Item Menu Terlaris</h3>
+        <div id="report-bestsellers" style="background: var(--bg-card); border-radius: var(--radius-md); padding: 16px; border: 1px solid var(--border-color);">
+          <p style="color: var(--text-muted);">Belum ada data penjualan hari ini.</p>
+        </div>
+      </section>
+
+      <!-- VIEW: MANAJEMEN MENU (ADMIN ONLY) -->
+      <section id="view-manage-menu" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="font-size: 1.5rem; font-weight: 700;">Daftar Katalog Menu</h2>
+          <button id="btn-open-add-menu" class="btn-checkout" style="width: auto; margin:0; padding: 10px 18px;">
+            + Tambah Menu Baru
+          </button>
+        </div>
+        <div id="admin-menu-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+      </section>
+
+    </main>
+
+    <!-- RIGHT PANEL: KERANJANG PESANAN -->
+    <aside class="cart-panel" id="cart-sidebar">
+      <div class="cart-header">
+        <h3 style="display:flex; align-items:center; gap:8px;">
+          <i data-lucide="shopping-bag" style="color: var(--primary);"></i> Pesanan Meja
+        </h3>
+        <button id="btn-clear-cart" style="background:none; border:none; color: var(--danger); cursor:pointer; font-size:0.85rem;">
+          Kosongkan
+        </button>
+      </div>
+
+      <div class="cart-items" id="cart-items-container">
+        <!-- Render Keranjang Otomatis -->
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="cart-subtotal">Rp 0</span>
+        </div>
+        <div class="summary-row">
+          <span>Pajak (PB1 10%)</span>
+          <span id="cart-tax">Rp 0</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total Akhir</span>
+          <span id="cart-grandtotal" style="color: var(--primary);">Rp 0</span>
+        </div>
+
+        <button id="btn-to-payment" class="btn-checkout" disabled>Lanjut ke Pembayaran</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- FLOATING CART BUTTON (MOBILE ONLY) -->
+  <div class="mobile-cart-fab" id="mobile-cart-btn">
+    <i data-lucide="shopping-bag"></i>
+    <span id="mobile-cart-count">0 Item</span>
+  </div>
+
+  <!-- MODAL 1: CHECKOUT & KALKULATOR PEMBAYARAN -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.25rem;">Metode Pembayaran</h3>
+        <button class="modal-close" onclick="closeModal('checkout-modal')" style="background:none; border:none; color:#fff; font-size:1.4rem; cursor:pointer;">&times;</button>
+      </div>
+
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Total Tagihan:</p>
+      <h2 id="modal-bill-amount" style="color: var(--primary); font-size: 1.8rem; margin-bottom: 16px;">Rp 0</h2>
+
+      <label style="font-size:0.85rem; color:var(--text-muted);">Pilih Jalur Bayar:</label>
+      <div class="payment-methods">
+        <button class="pay-btn active" data-method="Tunai">💵 Tunai</button>
+        <button class="pay-btn" data-method="QRIS">📱 QRIS</button>
+        <button class="pay-btn" data-method="Transfer Bank">🏦 Transfer</button>
+        <button class="pay-btn" data-method="Kartu Debit">💳 Kartu Debit</button>
+      </div>
+
+      <!-- KONTEN KHUSUS CASH -->
+      <div id="cash-calculator-section">
+        <div class="form-group">
+          <label>Nominal Tunai Diterima (Rp)</label>
+          <input type="number" id="input-cash-received" class="form-input" placeholder="0" autofocus>
+        </div>
+        <div class="cash-shortcuts">
+          <span class="cash-chip" data-val="exact">Uang Pas</span>
+          <span class="cash-chip" data-val="20000">20.000</span>
+          <span class="cash-chip" data-val="50000">50.000</span>
+          <span class="cash-chip" data-val="100000">100.000</span>
+        </div>
+        <div style="margin-top: 14px; padding: 12px; background: var(--bg-card); border-radius: var(--radius-sm); border: 1px dashed var(--border-color);">
+          <div style="display:flex; justify-content:space-between;">
+            <span>Kembalian:</span>
+            <strong id="cash-change-display" style="font-size: 1.15rem; color: var(--success);">Rp 0</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- KONTEN KHUSUS QRIS / LAINNYA -->
+      <div id="non-cash-section" style="display: none; text-align: center; padding: 16px; background: var(--bg-card); border-radius: var(--radius-md);">
+        <p id="non-cash-desc" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">Scan Kode QRIS Statis/Dinamis Kasir</p>
+        <img id="qris-img" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=KopiPOS-Mock-Payment" alt="QRIS" style="border-radius: 8px; margin: 0 auto; display:block;">
+      </div>
+
+      <button id="btn-process-pay" class="btn-checkout" style="margin-top: 20px;">Selesaikan Pembayaran</button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: STRUK PEMBAYARAN SELESAI -->
+  <div class="modal-overlay" id="receipt-modal">
+    <div class="modal-content" style="max-width: 420px; text-align: center;">
+      <i data-lucide="check-circle" style="width: 50px; height: 50px; color: var(--success); margin: 0 auto;"></i>
+      <h3 style="margin-top: 10px;">Transaksi Berhasil!</h3>
+      <div class="receipt-box" id="printable-receipt">
+        <!-- Struk HTML generate via app.js -->
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button onclick="window.print()" class="btn-checkout" style="background:var(--bg-card); color:#fff; border:1px solid var(--border-color);">Cetak Struk</button>
+        <button onclick="closeModal('receipt-modal')" class="btn-checkout">Pesanan Selesai</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: TAMBAH / EDIT MENU ADMIN -->
+  <div class="modal-overlay" id="menu-modal">
+    <div class="modal-content">
+      <h3 id="menu-modal-title" style="margin-bottom: 16px;">Tambah Menu Baru</h3>
+      <form id="menu-form">
+        <input type="hidden" id="menu-form-id">
+        <div class="form-group">
+          <label>Nama Minuman / Snack</label>
+          <input type="text" id="menu-form-name" class="form-input" required placeholder="Cth: Iced Spanish Latte">
+        </div>
+        <div class="form-group">
+          <label>Kategori</label>
+          <select id="menu-form-category" class="form-input" required>
+            <option value="Kopi">Kopi</option>
+            <option value="Non-Kopi">Non-Kopi</option>
+            <option value="Teh">Teh</option>
+            <option value="Minuman Dingin">Minuman Dingin</option>
+            <option value="Snack">Snack</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Harga Jual (Rp)</label>
+          <input type="number" id="menu-form-price" class="form-input" required placeholder="Cth: 25000">
+        </div>
+        <div class="form-group">
+          <label>URL Foto HD (Unsplash/Direct link)</label>
+          <input type="url" id="menu-form-image" class="form-input" required placeholder="https://images.unsplash.com/...">
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button type="button" onclick="closeModal('menu-modal')" class="btn-checkout" style="background:var(--bg-card); color:#fff; border:1px solid var(--border-color);">Batal</button>
+          <button type="submit" class="btn-checkout">Simpan Menu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+  </html>
